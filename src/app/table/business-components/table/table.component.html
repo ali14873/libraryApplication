@@ -1,0 +1,27 @@
+<p>table works!</p>
+<div class='card'>
+  <div class='card-header'>
+    book list
+  </div>
+  <div class='card-body'>
+
+    <div class='table-responsive'>
+      <table class='table' > <!--     *ngIf="books.length"   // will only display table if there are values.-->
+
+        <thead>
+        <tr>
+          <th *ngFor='let header of mhrTableConfig.headers'>{{header}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let row of mhrTableConfig.rows'>
+          <td *ngFor='let tableCellConfig of row'>
+            <mhr-table-cell [mhrTableCellConfig]='tableCellConfig'></mhr-table-cell>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
