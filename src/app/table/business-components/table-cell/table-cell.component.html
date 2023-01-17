@@ -1,4 +1,39 @@
-<div class="MhrTableCell-container" >
-<!-- TODO: use switch case in angular (there is a switch directive in angular html) to display differently each table cell
- depending on the type of the table cell config-->
-</div>
+
+  <!-- TODO: use switch case in angular (there is a switch directive in angular html) to display differently each table cell
+   depending on the type of the table cell config
+
+   if the type is a text you have to display it directly, if it#s a image display an image
+    tab with correct source (from the config)
+   if it#s a button display a button tag with the button text and the cluck
+   event of the button will call the action of the button config
+
+
+
+
+   -->
+
+  <div class="MhrTableCell-container">
+
+
+    <div [ngSwitch]="mhrTableCellConfig.type === 1">
+     {{mhrTableCellConfig.value}}
+
+      <button type="submit">{{mhrTableCellConfig.value}}</button>
+    </div>
+
+      <div [ngSwitch]="mhrTableCellConfig.type === 0">
+        {{mhrTableCellConfig.value}}
+      </div>
+
+
+
+    <div [ngSwitch]="mhrTableCellConfig.type === 2">
+      <img src="{{mhrTableCellConfig.value" alt="image of book">
+    </div>
+
+
+
+
+  </div>
+
+

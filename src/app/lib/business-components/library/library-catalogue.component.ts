@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ITableConfig } from '../../../table';
 import { BooksHelper } from '../../services/books-helper/books-helper.service';
 import { BookService } from '../../services/books/book.service';
@@ -25,7 +26,7 @@ export class LibraryCatalogueComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const books: Array<IBook> = this._bookService.getBooks();
-    this.table = this._booksHelper.bookToTable(books);
+    const books: Observable<IBook[]> = this._bookService.getBooks();
+    // this.table = this._booksHelper.bookToTable(books);
   }
 }

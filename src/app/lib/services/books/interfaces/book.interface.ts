@@ -1,10 +1,9 @@
 export interface IBook {
-  productId: number;
+  id: string;
   bookName: string;
-  productCode: string;
   releaseDate: string;
   description: string;
-  price: number;
-  starRating: number;
-  imageUrl: string
-}
+  pageCount: number;
+  author: string;
+  Rating: number;
+}//replace these with the ones i have on the api so no image for example

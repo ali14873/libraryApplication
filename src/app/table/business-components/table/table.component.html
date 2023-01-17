@@ -1,27 +1,82 @@
-<p>table works!</p>
-<div class='card'>
-  <div class='card-header'>
-    book list
-  </div>
-  <div class='card-body'>
+<p>table works! table.component.html</p>
+<!--<div class='card'>-->
+<!--  <div class='card-header'>-->
+<!--  </div>-->
+<!--  <div class='card-body'>-->
 
-    <div class='table-responsive'>
-      <table class='table' > <!--     *ngIf="books.length"   // will only display table if there are values.-->
+<!--    <div class='table-responsive'>-->
+<!--      <table class='table' > &lt;!&ndash;     *ngIf="books.length"   // will only display table if there are values.&ndash;&gt;-->
 
-        <thead>
-        <tr>
-          <th *ngFor='let header of mhrTableConfig.headers'>{{header}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor='let row of mhrTableConfig.rows'>
-          <td *ngFor='let tableCellConfig of row'>
-            <mhr-table-cell [mhrTableCellConfig]='tableCellConfig'></mhr-table-cell>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th *ngFor='let header of mhrTableConfig.headers'>{{header}}</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr *ngFor='let row of mhrTableConfig.rows'>-->
+<!--          <td *ngFor='let tableCellConfig of row'>-->
+<!--            <mhr-table-cell [mhrTableCellConfig]='tableCellConfig'></mhr-table-cell>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="example-container mat-elevation-z8">-->
 
+<!--  <div class="example-table-container">-->
+
+<!--    <table mat-table [dataSource]="dataToDisplay" class="example-table"-->
+<!--           matSort matSortActive="created" matSortDisableClear matSortDirection="desc">-->
+<!--      &lt;!&ndash; Number Column &ndash;&gt;-->
+<!--      <ng-container matColumnDef="number">-->
+<!--        <th mat-header-cell *matHeaderCellDef>#</th>-->
+<!--        <td mat-cell *matCellDef="let row">{{row.number}}</td>-->
+<!--      </ng-container>-->
+
+<!--       Title Column s -->
+<!--      <ng-container matColumnDef="title">-->
+<!--        <th mat-header-cell *matHeaderCellDef>Title</th>-->
+<!--        <td mat-cell *matCellDef="let row">{{row.title}}</td>-->
+<!--      </ng-container>-->
+
+<!--      &lt;!&ndash; State Column &ndash;&gt;-->
+<!--      <ng-container matColumnDef="state">-->
+<!--        <th mat-header-cell *matHeaderCellDef>State</th>-->
+<!--        <td mat-cell *matCellDef="let row">{{row.state}}</td>-->
+<!--      </ng-container>-->
+
+<!--      &lt;!&ndash; Created Column &ndash;&gt;-->
+<!--      <ng-container matColumnDef="created">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>-->
+<!--          Created-->
+<!--        </th>-->
+<!--        <td mat-cell *matCellDef="let row">{{row.created_at | date}}</td>-->
+<!--      </ng-container>-->
+
+<!--      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--    </table>-->
+<!--  </div>-->
+
+<!--</div>-->
+{{dataToDisplay.length}}
+<ul class="books">
+  <li *ngFor="let book of dataToDisplay">
+
+    <span class="badge">{{ book.bookName }}</span>
+<!--    <span *ngIf="hero!==editHero; else editInput" class="name">{{book.name}}</span>-->
+<!--    <ng-template #editInput>-->
+<!--      <input #heroEditInput type="text" class="name" [value]="editHero!.name" (blur)="edit(heroEditInput.value)" (keydown.enter)="edit(heroEditInput.value)"/>-->
+<!--    </ng-template>-->
+<!--    <button *ngIf="hero!==editHero" type="button" class="edit" title="edit hero"-->
+<!--            (click)="editHero = hero">-->
+<!--      Edit-->
+<!--    </button>-->
+<!--    <button type="button" class="delete" title="delete hero"-->
+<!--            (click)="delete(hero)">-->
+<!--      Delete-->
+<!--    </button>-->
+  </li>
+</ul>

@@ -12,7 +12,6 @@ import { TableCellComponent } from './business-components/table-cell/table-cell.
   declarations: [
     TableComponent,
     BookDetailComponent,
-
     TableCellComponent
 
   ],
