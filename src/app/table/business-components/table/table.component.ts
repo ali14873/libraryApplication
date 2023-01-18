@@ -17,25 +17,64 @@ export class TableComponent implements OnInit {
   // @Input()
   // public mhrTableConfig: ITableConfig;
 
-  headers: [ 'bookName', 'releaseDate', 'description',  'author', 'starRating'];
-  dataToDisplay: IBook[] = [];
-  // dataToDisplay: IBook[] = ELEMENT_DATA
+  headers: string[] = ['id','bookName', 'releaseDate', 'description', 'pageCount', 'author', 'Rating'];
+  // dataToDisplay: IBook[] = [];
+  dataToDisplay  = ELEMENT_DATA
+  editBook: IBook | undefined; // the hero currently being edited
+  bookName = '';
 
   constructor(private BookService: BookService) {}
 
 
     ngOnInit(){
-      this.getBooks();
+      // this.getBooks();
   }
-    getBooks(): void {
-      this.BookService.getBooks().subscribe((Book: IBook[]) => (this.dataToDisplay = Book));
-    }
+    // getBooks(): void {
+    //   this.BookService.getBooks().subscribe((Book: IBook[]) => (this.dataToDisplay = Book));
+    // }
 
+  // add(name: string): void {
+  //   this.editBook = undefined;
+  //   name = name.trim();
+  //   if (!name) {
+  //     return;
+  //   }
+  //
+  //     const newBook: IBook = { bookName } as IBook;
+  //   this.BookService.addBook(newBook)
+  //     .subscribe((book) => this.dataToDisplay.push(book));
+  }
+  // search(searchTerm: string) {
+  //   this.editHero = undefined;
+  //   if (searchTerm) {
+  //     this.heroesService
+  //       .searchHeroes(searchTerm)
+  //       .subscribe((heroes) => (this.heroes = heroes));
+  //   } else {
+  //     this.getHeroes();
+  //   }
+  // }
+// }
 
-
-
-
-}
+const ELEMENT_DATA: IBook[] = [
+  {
+    'id': "1",
+    'bookName': 'Harry Potter',
+    'releaseDate': 'March 19, 2000',
+    'description': 'lorem suesh aued huisk deikm.',
+    'pageCount': 300,
+    'author': "300",
+    'Rating': 300,
+  }, {
+    'id': "2",
+    'bookName': 'To Kill a Mockingbird',
+    'releaseDate': 'March 18, 2021',
+    'description': '15 gallon capacity rolling garden cart',
+    'pageCount': 4.2,
+    'author': "4.2",
+    'Rating': 4.2,
+  }
+];
 // const ELEMENT_DATA: IBook[] = [
 //
 //   {
