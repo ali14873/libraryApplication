@@ -1,5 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { map, switchMap } from 'rxjs';
 import {IBook} from "src/app/lib/services/books/interfaces/book.interface";
+import { IApiCollectionResponse } from '../../../api/interfaces/api-response';
 import {BookService} from "../../../lib/services/books/book.service";
 import {ITableConfig} from "./interfaces/table-config.interface";
 
@@ -11,39 +13,86 @@ import {ITableConfig} from "./interfaces/table-config.interface";
   // TODO: Learn what is change detection ;p
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
-
 export class TableComponent implements OnInit {
   // @Input()
   // public mhrTableConfig: ITableConfig;
 
-  headers: string[] = ['id','bookName', 'releaseDate', 'description', 'pageCount', 'author', 'Rating'];
-  // dataToDisplay: IBook[] = [];
-  dataToDisplay  = ELEMENT_DATA
-  editBook: IBook | undefined; // the hero currently being edited
-  bookName = '';
+   headers: Array<string> = ['id','bookName', 'releaseDate', 'description', 'pageCount', 'author', 'Rating'];
+   dataToDisplay: Array<IBook> = [];
+   editBook: IBook | undefined;
+   name = '';
+   releaseDate: string;
+   description: string;
+   pageCount: number;
+   author: string;
+   rating: number;
+   selectedBookId: number;
 
-  constructor(private BookService: BookService) {}
+  constructor(private _changeDetectorRef: ChangeDetectorRef,private BookService: BookService) {}
 
 
     ngOnInit(){
-      // this.getBooks();
+      this.getBooks();
   }
-    // getBooks(): void {
-    //   this.BookService.getBooks().subscribe((Book: IBook[]) => (this.dataToDisplay = Book));
-    // }
+    getBooks(): void {
+      this.BookService.getBooks().subscribe((books: Array<IBook>) => {
+        this.dataToDisplay = books;
+        this._changeDetectorRef.markForCheck();
 
-  // add(name: string): void {
-  //   this.editBook = undefined;
-  //   name = name.trim();
-  //   if (!name) {
-  //     return;
-  //   }
-  //
-  //     const newBook: IBook = { bookName } as IBook;
-  //   this.BookService.addBook(newBook)
-  //     .subscribe((book) => this.dataToDisplay.push(book));
+      });
+    }
+
+  add(): void {
+    this.editBook = undefined;
+    if (!this.name) {
+      return;
+    }
+    const newBook: IBook = {
+      name: this.name,
+      releaseDate: this.releaseDate,
+      description: this.description,
+      pageCount: this.pageCount,
+      author: this.author,
+      rating: this.rating,
+    } as IBook;
+
+    this.BookService.addBook(newBook)
+      .subscribe((response: IApiCollectionResponse<IBook>) => {
+        // @ts-ignore
+        this.dataToDisplay.push(response.data.book);
+        this._changeDetectorRef.markForCheck();
+      });
   }
+  deleteBook(id: number): void {
+    this.BookService.deleteBook(id).subscribe(() => {
+      this.dataToDisplay = this.dataToDisplay.filter((book) => book.id !== id.toString());
+    });
+  }
+
+  selectedBook: IBook;
+
+  editUpdateBook(book: IBook): void {
+    this.selectedBook = book;
+  }
+
+  updateSelectedBook(): void {
+    this.BookService.updateBook(this.selectedBook).subscribe((updatedBook: IBook) => {
+      // update the data in the dataToDisplay array
+      const bookIndex = this.dataToDisplay.findIndex(b => b.id === this.selectedBook.id);
+      this.dataToDisplay[bookIndex] = updatedBook;
+      this._changeDetectorRef.markForCheck();
+    });
+  }
+
+
+
+
+
+
+
+
+}
+
   // search(searchTerm: string) {
   //   this.editHero = undefined;
   //   if (searchTerm) {
@@ -56,25 +105,25 @@ export class TableComponent implements OnInit {
   // }
 // }
 
-const ELEMENT_DATA: IBook[] = [
-  {
-    'id': "1",
-    'bookName': 'Harry Potter',
-    'releaseDate': 'March 19, 2000',
-    'description': 'lorem suesh aued huisk deikm.',
-    'pageCount': 300,
-    'author': "300",
-    'Rating': 300,
-  }, {
-    'id': "2",
-    'bookName': 'To Kill a Mockingbird',
-    'releaseDate': 'March 18, 2021',
-    'description': '15 gallon capacity rolling garden cart',
-    'pageCount': 4.2,
-    'author': "4.2",
-    'Rating': 4.2,
-  }
-];
+// const ELEMENT_DATA: IBook[] = [
+//   {
+//     'id': "1",
+//     'bookName': 'Harry Potter',
+//     'releaseDate': 'March 19, 2000',
+//     'description': 'lorem suesh aued huisk deikm.',
+//     'pageCount': 300,
+//     'author': "300",
+//     'Rating': 300,
+//   }, {
+//     'id': "2",
+//     'bookName': 'To Kill a Mockingbird',
+//     'releaseDate': 'March 18, 2021',
+//     'description': '15 gallon capacity rolling garden cart',
+//     'pageCount': 4.2,
+//     'author': "4.2",
+//     'Rating': 4.2,
+//   }
+// ];
 // const ELEMENT_DATA: IBook[] = [
 //
 //   {
@@ -120,23 +169,3 @@ const ELEMENT_DATA: IBook[] = [
 // public books: IBook[] =[
 // ];
 //
-// performFilter(filterBy: string): IBook[]{
-//   filterBy = filterBy.toLowerCase();
-//   return this.books.filter((books: IBook) => books.BookName.toLowerCase().includes(filterBy));
-//
-// }
-//
-// toggeleImage(): void{
-//   this.showImage = !this.showImage;
-// }
-// ngOnInit(): void {
-//   this.books = this.bookService.getBooks()
-//   this.filteredBooks = this.books;
-//
-// }
-//
-// GetFilterdBooks(): IBook[]{
-//   return this.books;
-//
-//
-// }

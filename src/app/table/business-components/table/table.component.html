@@ -29,17 +29,48 @@
 
 <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-<!--&lt;!&ndash;<div class="search">&ndash;&gt;-->
-<!--&lt;!&ndash;  <label for="-name"> name: </label>&ndash;&gt;-->
+<div class="search">
 
-<!--&lt;!&ndash;  <input type="date" name="" id="">&ndash;&gt;-->
-<!--&lt;!&ndash;  <button type="button" [disabled]="!bookName"&ndash;&gt;-->
-<!--&lt;!&ndash;          (click)="add(bookName)">Add hero</button>&ndash;&gt;-->
-<!--&lt;!&ndash;  <button type="button" (click)="search(heroName)">&ndash;&gt;-->
-<!--&lt;!&ndash;    Search&ndash;&gt;-->
-<!--&lt;!&ndash;  </button>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
 
+  <form>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="releaseDate">Release Date</label>
+      <input type="date" class="form-control" [(ngModel)]="releaseDate" name="releaseDate">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" [(ngModel)]="description" name="description">
+    </div>
+    <div class="form-group">
+      <label for="pageCount">Page Count</label>
+      <input type="number" class="form-control" [(ngModel)]="pageCount" name="pageCount">
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" class="form-control" [(ngModel)]="author" name="author">
+    </div>
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <input type="number" class="form-control" [(ngModel)]="rating" name="rating">
+    </div>
+    <button type="button" [disabled]="!name" (click)="add()">Add</button>
+  </form>
+
+  <!--  <button type="button" (click)="search(heroName)">-->
+<!--    Search-->
+<!--  </button>-->
+</div>
+
+<div>
+  <label for="book-select">Select a book to delete:</label>
+  <select id="book-select" [(ngModel)]="selectedBookId" (change)="deleteBook(selectedBookId)">
+    <option *ngFor="let book of dataToDisplay" [ngValue]="book.id">{{ book.name }}</option>
+  </select>
+</div>
 {{dataToDisplay.length}}
 
 <table mat-table [dataSource]="dataToDisplay" class="mat-elevation-z8">
@@ -56,7 +87,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="bookName">
     <th mat-header-cell *matHeaderCellDef>bookName</th>
-    <td mat-cell *matCellDef="let element"> {{element.bookName}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
   <!-- Weight Column -->
@@ -85,7 +116,7 @@
 
   <ng-container matColumnDef="Rating">
     <th mat-header-cell *matHeaderCellDef> Rating </th>
-    <td mat-cell *matCellDef="let element"> {{element.Rating}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="headers"></tr>
@@ -93,8 +124,59 @@
 </table>
 
 
+<table>
+  <thead>
+  <tr>
+    <th *ngFor="let header of headers">{{header}}</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let book of dataToDisplay">
+    <td>{{book.id}}</td>
+    <td>{{book.name}}</td>
+    <td>{{book.releaseDate}}</td>
+    <td>{{book.description}}</td>
+    <td>{{book.pageCount}}</td>
+    <td>{{book.author}}</td>
+    <td>{{book.rating}}</td>
+    <td>
+      <button (click)="editUpdateBook(book)">Edit</button>
+<!--      <button (click)="deleteBook(book.id)">Delete</button>-->
+    </td>
+  </tr>
+  </tbody>
+</table>
 
-
+<div *ngIf="selectedBook">
+  <form>
+    <label>
+      Name:
+      <input [(ngModel)]="selectedBook.name" name="name" type="text">
+    </label>
+    <label>
+      Release Date:
+      <input [(ngModel)]="selectedBook.releaseDate" name="releaseDate" type="text">
+    </label>
+    <label>
+      Description:
+      <input [(ngModel)]="selectedBook.description" name="description" type="text">
+    </label>
+    <label>
+      Page Count:
+      <input [(ngModel)]="selectedBook.pageCount" name="pageCount" type="number">
+    </label>
+    <label>
+      Author:
+      <input [(ngModel)]="selectedBook.author" name="author" type="text">
+    </label>
+    <label>
+      Rating:
+      <input [(ngModel)]="selectedBook.rating" name="rating" type="number">
+    </label>
+    <button (click)="updateSelectedBook()">Save</button>
+  </form>
+</div>
 
 
 
